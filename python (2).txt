@@ -1,0 +1,269 @@
+﻿python
+
+您的Google Key为: S23PUQ7SV3YNCUNNFTCH2CFZE4
+
+tf.flags.DEFINE_string：
+	tf.flags.DEFINE_integer("batch_size", 640, "Batch Size (default: 64)")
+	#第一个是参数名称，第二个参数是默认值，第三个是参数描述
+
+	FLAGS = tf.flags.FLAGS #FLAGS保存命令行参数的数据
+	FLAGS._parse_flags() #将其解析成字典存储到FLAGS.__flags中
+	
+
+pip install 安装包名字  -i http://pypi.doubanio.com/simple/ --trusted-host pypi.doubanio.com
+pip install yaml -i http://pypi.doubanio.com/simple/ --trusted-host pypi.doubanio.com
+pip3 install --upgrade tensorflow -i http://pypi.doubanio.com/simple/ --trusted-host pypi.doubanio.com
+
+
+
+平安自己的python库
+pip install --no-cache-dir --trusted-host nexus.pajk-ent.com -i http://nexus.pajk-ent.com/repository/pypi-aliyun/simple flask  
+
+
+
+mkdir ~/.pip/; vi ~/.pip/pip.conf
+[global]
+index = http://pypi.doubanio.com
+index-url = http://pypi.doubanio.com/simple
+[install]
+trusted-host=pypi.doubanio.com
+
+
+#注意：allow_soft_placement=True表明：计算设备可自行选择，如果没有这个参数，会报错。
+#因为不是所有的操作都可以被放在GPU上，如果强行将无法放在GPU上的操作指定到GPU上，将会报错。
+sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True,log_device_placement=True))
+#sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+sess.run(tf.global_variables_initializer())
+print(sess.run(c))
+
+
+random.shuffle: 将序列的所有元素随机排序。
+
+
+Python count() 方法用于统计字符串里某个字符出现的次数。可选参数为在字符串搜索的开始与结束位置
+
+查看 cuda:
+cat /usr/local/cuda/version.txt
+
+
+查看文本的行数：
+wc -l 文本.txt 
+
+
+anaconda环境下使用jupyter notebook:
+conda install nb_conda
+
+终端指定GPU
+CUDA_VISIBLE_DEVICES=1 python my_script.py
+
+nohup命令：如果你正在运行一个进程，而且你觉得在退出帐户时该进程还不会结束，那么可以使用nohup命令。
+该命令可以在你退出帐户/关闭终端之后继续运行相应的进程。 no hang up
+nohup 你的命令 > hup.log 2>&1 &   
+
+查看python进程
+ps -ef |grep python
+
+
+查看版本
+pip list|grep numpy
+
+
+二分类
+sigmoid函数
+二分类交叉熵损失函数（binary_crossentropy）
+
+多分类
+Softmax函数
+多类别交叉熵损失函数（categorical_crossentropy）
+
+多标签分类
+sigmoid函数
+二分类交叉熵损失函数（binary_crossentropy）
+
+如果你的 targets 是 one-hot 编码，用 categorical_crossentropy
+　　one-hot 编码：[0, 0, 1], [1, 0, 0], [0, 1, 0]
+如果你的 tagets 是 数字编码 ，用 sparse_categorical_crossentropy
+　　数字编码：2, 0, 1
+
+
+
+
+no hup run 命令：
+1，vim run.sh	：新建sh可执行文件
+2，将执行的命令写入run.sh中 + >run.log     :日志保存在run.log中
+2，chmod 775 run.sh   ：更改为可执行命令
+3，nohup ./run.sh > hup.log 2>&1 &    ：执行run.sh命令
+4，tail -f run.log   ：显示runlog的内容
+
+
+
+heapq模块是可以用来求前n个最大/最小值的
+heapq.nlargest(n, scores)
+heapq.nsmallest(n, scores)
+
+
+
+distance模块
+求编辑距离 distance.levenshtein（）
+
+
+
+云之声bert模型的相关记录：
+
+信息抽取  问题+单个选项
+1，在题库中 bm25的信息抽取
+	在题库中抽取10条最相关的考题，然后使用编辑距离去重，
+	然后取前5条，作为passage_ans
+	
+2，在text中 bm25的信息抽取
+	在text中抽取20条最相关的信息，然后使用bm25得分去重
+	然后使用从试题中抽取的实体，对上面的20条信息进行bm25计算
+	然后选取5条最高的得分的信息，作为text_ans
+
+3	把passage_ans  join在一起
+	筛选有option 在 text_ans中的信息， join在一起
+
+4	question + [sep] + passage + text = abstract 作为摘要
+
+5	[CLS] + tokenize(option) + [SEP] + tokenize(abstract) + [SEP]作为bert的输入
+
+
+bert模型输出的某些概率为1，其实并不是为1，只是非常接近1， for example:
+[8.9827736e-11 2.2432978e-12 1.0000000e+00 1.8219727e-10 2.0298263e-10]
+
+
+正则表达式中\1代表引用第一个分组，\2引用第二个分组；
+假设一个字符串aa；首先a属于a-z，\1再引用一次a，为aa，满足条件，返回true；
+假设一个字符串ab；首先a属于a-z，\1再引用一次a，为aa，不符合条件，返回false。
+
+
+
+python字符串前面加个u代表什么?
+例：u"我是含有中文字符组成的字符串。"
+作用：后面字符串以 Unicode 格式 进行编码，一般用在中文字符串前面，防止因为源码储存格式问题，导致再次使用时出现乱码。
+
+
+
+
+查看进程：
+ps -a
+
+
+使用 uWSGI+Flask  部署web应用
+
+
+
+=...（赋值号后面省略号），给该变量赋值一个default值。具体python的机制我不清楚。应该是在类里面定义好的。
+...(冒号后面省略号)，表示函数的定义内容不写了。
+
+
+
+
+
+
+正则匹配
+(?:pattern) 
+非获取匹配，匹配pattern但不获取匹配结果，不进行存储供以后使用。这在使用或字符“(|)”来组合一个模式的各个部分是很有用。例如“industr(?:y|ies)”就是一个比“industry|industries”更简略的表达式。
+(?=pattern)
+非获取匹配，正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如，“Windows(?=95|98|NT|2000)”能匹配“Windows2000”中的“Windows”，但不能匹配“Windows3.1”中的“Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。
+(?!pattern)
+非获取匹配，正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如“Windows(?!95|98|NT|2000)”能匹配“Windows3.1”中的“Windows”，但不能匹配“Windows2000”中的“Windows”。
+(?<=pattern)
+非获取匹配，反向肯定预查，与正向肯定预查类似，只是方向相反。例如，“(?<=95|98|NT|2000)Windows”能匹配“2000Windows”中的“Windows”，但不能匹配“3.1Windows”中的“Windows”。
+(?<!pattern)
+非获取匹配，反向否定预查，与正向否定预查类似，只是方向相反。例如“(?<!95|98|NT|2000)Windows”能匹配“3.1Windows”中的“Windows”，但不能匹配“2000Windows”中的“Windows”。这个地方不正确，有问题 
+
+
+
+
+
+读取格式坏的excel
+def read_excel(excelname):
+    # 打开excel文件,获取工作簿对象
+    wb = openpyxl.load_workbook(excelname)
+    #wb = openpyxl.load_workbook('trainset-1130-en.xlsx')
+    # 从表单中获取单元格的内容
+    ws = wb.active  # 当前活跃的表单
+    (ws.max_row, ws.max_column)  #最大行列数
+    data_list=[]
+
+    #遍历所有的行
+    row_range=ws[1:ws.max_row]  
+    for i in row_range:
+        temp_list=[]
+        for cell in i:
+            #print(cell.value)
+            temp_list.append(str(cell.value).replace("\t"," "))
+        data_list.append(temp_list)
+    #数据放到
+    data_en=pd.DataFrame(data_list,columns=["diagnosis_result","tag_id_list","c4"])
+
+    data_en=data_en.sample(frac=1)
+    data_en_train=data_en[:int(len(data_en)*0.9)]
+    data_en_test=data_en[int(len(data_en)*0.9):]
+
+    data_en_train.to_csv("trainset-1130-en.txt",sep="\t",index=False)
+    data_en_test.to_csv("testset-1130-en.txt",sep="\t",index=False)
+
+
+应用	应用名
+智能预检	dpt-predict
+导诊黑盒	drbox
+模版系统	ai-template
+机器人对话	Robot-dialog
+模版库	Robot-template
+模版分发	Ai-robot
+模版检查	Ai-check
+智能分诊	drthink
+智能诊断	dr-go
+诊断信息收集	Ai-collect
+智能诊断	drbrain
+智能诊断记录	furions
+智能处方	recsys-crill
+ 
+ 
+
+调研了python环境下高并发Tornado架构和redis内存读写机制
+
+
+drbrain的训练：
+nohup java -Xmx100g drbrain-base.jar "" "" "" >out2.log 2>&1 &
+66服务器的位置：/home/admin/zd
+
+
+
+hive拉取的数据格式，utf-16
+
+
+
+//查看系统中文件的使用情况
+df -h
+//查看当前目录下各个文件及目录占用空间大小
+du -sh *
+
+
+
+
+IT:
+EX-HUJIE003
+
+
+drbrain:
+String version = Eagle.get(EagleKey.icdVersionKey);
+eage配置中 version只是选择的2018 tag_meta
+2018：4000
+2017：50468个标准的词语
+
+
+
+
+打jar包注意事项：
+1, 先把其他jar的配置删除
+2，jar files from libraryies: extract to the target JAR
+3，META-INF的目录： 点击 ... ，然后选择resource。
+4，Include tests要勾选一下。
+5，include in project build要勾选一下。
+
+
+
+
